@@ -3,6 +3,6 @@ FROM ubuntu
 RUN apt-get update
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get -y install apache2
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
-ADD . /var/www/html
+ADD index.html /var/www/html/
+EXPOSE 80
 ENTRYPOINT apachectl -D FOREGROUND
