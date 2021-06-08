@@ -1,9 +1,21 @@
-FROM alpine:latest
+# This Dockerfile is to install, configure and deploy Apache Web Server
 
-RUN apk update && apk add apache2 && apk add apache2-proxy && apk add apache2-ssl && rm -rf /var/cache/apk/*
+FROM ubuntu:12.04
 
-copy index.html ./var/www/localhost/htdocs/
+MAINTAINER Goutham Kumar <chgoutam@gmail.com>
+
+LABEL appName="offers" \
+      version="3.8.9" \
+      release="10-05-19"
+
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
 
 EXPOSE 80
 
-CMD ["/usr/sbin/httpd","-D","FOREGROUND"]
+RUN apt-get update && apt-get install -y apache2 && apt-get clean
+
+COPY index.html /var/www/
+
+CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
